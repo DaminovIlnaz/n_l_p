@@ -1,9 +1,8 @@
 import pandas
 import pymorphy2
 from nltk.tokenize import RegexpTokenizer
-
 morph = pymorphy2.MorphAnalyzer()
-nltk = RegexpTokenizer(r'\w+')
+tokenizer = RegexpTokenizer(r'\w+')
 
 # Все данные
 data = pandas.read_csv("C:\\Users\\admin\\Downloads\\comments.csv", encoding="utf-8")
@@ -21,44 +20,45 @@ del data['title']
 
 print(data.head)
 
-# Приводим в норм форму и чистим от лишнего тестовые данные
+# Убираем пунктуацию
+def tokenizeWord(word):
+    word = tokenizer.tokenize(word)
+    if len(word) == 1:
+        word = word[0]
+    else:
+        word = ""
+    return word
+
 uniqueWords = []
 i = 0
 sentences = []
+# Приводим в норм форму учебные данные
 for comment in data.values:
-    i += 1
+    i+=1
     words = comment[0].split()
-    wordsArr = []
+    wordsList = []
     for word in words:
-        wordNF = nltk.tokenize(morph.parse(word)[0].normal_form)
-        if len(wordNF) == 1:
-            wordNF = wordNF[0]
-        else:
-            wordNF = ""
+        wordNF = tokenizeWord(morph.parse(word)[0].normal_form)
         uniqueWords.append(wordNF)
-        wordsArr.append(wordNF)
-    sentences.append(wordsArr)
-
-# Приводим в норм форму и чистим от лишнего учебные данные
+        wordsList.append(wordNF)
+    sentences.append(wordsList)
 i = 0
 testSentences = []
+# Приводим в норм форму тстовые данные
 for comment in test.values:
-    i += 1
+    i+=1
     words = comment[0].split()
-    wordsArr = []
+    wordsList = []
     for word in words:
-        wordNF = nltk.tokenize(morph.parse(word)[0].normal_form)
-        if len(wordNF) == 1:
-            wordNF = wordNF[0]
-        else:
-            wordNF = ""
+        wordNF = tokenizeWord(morph.parse(word)[0].normal_form)
         uniqueWords.append(wordNF)
-        wordsArr.append(wordNF)
-    testSentences.append(wordsArr)
+        wordsList.append(wordNF)
+    testSentences.append(wordsList)
+
 
 from gensim.models import Word2Vec
-
 uniqueWords = set(uniqueWords)
+# по 50 синонимов
 model = Word2Vec(sentences=sentences, min_count=1, size=50)
 
 print(model.wv.most_similar('я'))
