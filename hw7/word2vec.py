@@ -60,6 +60,7 @@ from gensim.models import Word2Vec
 uniqueWords = set(uniqueWords)
 # по 50 синонимов
 model = Word2Vec(sentences=sentences, min_count=1, size=50)
+#выводим по 50 синонимов
 
 print(model.wv.most_similar('я'))
 print(model.wv.most_similar('он'))
