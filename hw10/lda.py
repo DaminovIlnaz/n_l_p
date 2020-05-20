@@ -27,6 +27,7 @@ def tokenizeWord(word):
 
 import pymorphy2
 from nltk.tokenize import RegexpTokenizer
+
 morph = pymorphy2.MorphAnalyzer()
 tokenizer = RegexpTokenizer(r'\w+')
 uniqWords = []
