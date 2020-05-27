@@ -130,8 +130,8 @@ def make_table(first_word, second_word, D, B, backtrace):
     return table
 
 
-fist_word = "intention"
-second_word = "execution"
+fist_word = "CONNECT"
+second_word = "CONEHEAD"
 
 D, B = edit_distance_dp(fist_word, second_word)
 bt = backtrace(B)
