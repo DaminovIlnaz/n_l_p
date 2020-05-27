@@ -3,18 +3,14 @@ import tabulate as tb
 
 
 def edit_distance_dp(first_word, second_word):
-    n = len(first_word) + 1  # counting empty string
-    m = len(second_word) + 1  # counting empty string
+    n = len(first_word) + 1
+    m = len(second_word) + 1
 
     # initialize D matrix
     D = np.zeros(shape=(n, m), dtype=np.int)
     D[:, 0] = range(n)
     D[0, :] = range(m)
 
-    # B is the backtrack matrix. At each index, it contains a triple
-    # of booleans, used as flags. if B(i,j) = (1, 1, 0) for example,
-    # the distance computed in D(i,j) came from a deletion or a
-    # substitution. This is used to compute backtracking later.
     B = np.zeros(shape=(n, m), dtype=[("del", 'b'),
                                       ("sub", 'b'),
                                       ("ins", 'b')])
@@ -63,12 +59,12 @@ def alignment(first_word, second_word, backtrace):
         w_2_letter = None
         op = None
 
-        if i_1 > i_0 and j_1 > j_0:  # either substitution or no-op
-            if first_word[i_0] == second_word[j_0]:  # no-op, same symbol
+        if i_1 > i_0 and j_1 > j_0:
+            if first_word[i_0] == second_word[j_0]:
                 w_1_letter = first_word[i_0]
                 w_2_letter = second_word[j_0]
                 op = " "
-            else:  # cost increased: substitution
+            else:
                 w_1_letter = first_word[i_0]
                 w_2_letter = second_word[j_0]
                 op = "s"
@@ -114,9 +110,9 @@ def make_table(first_word, second_word, D, B, backtrace):
 
         for j, l_2 in enumerate(w_2):
             v, d, h = B[i, j]
-            direction = ("⇓" if v else "") + \
-                        ("⇙" if d else "") + \
-                        ("⇐" if h else "")
+            direction = ("down." if v else "") + \
+                        ("down-left." if d else "") + \
+                        ("left." if h else "")
 
             # ↓ ⇙
 
