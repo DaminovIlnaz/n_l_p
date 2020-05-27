@@ -8,6 +8,7 @@ def edit_distance_dp(first_word, second_word):
 
     # initialize D matrix
     D = np.zeros(shape=(n, m), dtype=np.int)
+    # Сохранить текущую и предыдущую строку, а не всю матрицу
     D[:, 0] = range(n)
     D[0, :] = range(m)
 
@@ -68,11 +69,11 @@ def alignment(first_word, second_word, backtrace):
                 w_1_letter = first_word[i_0]
                 w_2_letter = second_word[j_0]
                 op = "s"
-        elif i_0 == i_1:  # insertion
+        elif i_0 == i_1:
             w_1_letter = " "
             w_2_letter = second_word[j_0]
             op = "i"
-        else:  # j_0 == j_1,  deletion
+        else:
             w_1_letter = first_word[i_0]
             w_2_letter = " "
             op = "d"
@@ -113,8 +114,6 @@ def make_table(first_word, second_word, D, B, backtrace):
             direction = ("down." if v else "") + \
                         ("down-left." if d else "") + \
                         ("left." if h else "")
-
-            # ↓ ⇙
 
             dist = str(D[i, j])
 
