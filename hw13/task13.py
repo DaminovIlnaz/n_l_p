@@ -98,8 +98,8 @@ def make_table(first_word, second_word, D, B, backtrace):
     w_1 = first_word.upper()
     w_2 = second_word.upper()
 
-    w_1 = "#" + w_1
-    w_2 = "#" + w_2
+    w_1 = " " + w_1
+    w_2 = " " + w_2
 
     table = []
 
